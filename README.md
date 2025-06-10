@@ -19,7 +19,7 @@
 
 ## 🎨 데모
 
-> (![설명 텍스트](./screenshot_1.png)![설명 텍스트](./screenshot_2.png)![설명 텍스트](./screenshot_3.png)![설명 텍스트](./screenshot_4.png))
+> ![설명 텍스트](./screenshot_4.png)![설명 텍스트](./screenshot_3.png)![설명 텍스트](./screenshot_2.png)![설명 텍스트](./screenshot_1.png)
 
 ---
 
@@ -197,7 +197,3 @@ MIT
 > 이 README는 자바스크립트 강의에서 배운 내용을 바탕으로,  
 > 단순성과 가독성, 유지보수를 고려하여 작성되었습니다.  
 > 추가 기능(예: 완료 표시, 우선순위 등)은 자유롭게 확장 가능합니다.
-```
-
-
----
