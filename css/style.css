@@ -29,7 +29,7 @@ main {
     max-width: 768px;
 }
 
-.app header {
+.app-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -37,20 +37,20 @@ main {
 
 }
 
-.app header h1 {
+.app-header h1 {
     color: #fff;
     font-size: 24px;
     font-weight: 400;
 }
 
-.app header button { 
+.app-header button { 
     color: #fff;
     font-size: 18px;
     border-bottom: 2px solid #fff;
     text-transform: uppercase;
 }
 
-.item {
+.todo-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -61,15 +61,15 @@ main {
     margin-bottom: 1.5rem;
 }
 
-.item:last-of-type {
+.todo-item:last-of-type {
     margin-bottom: 0;
 }
 
-.item input[type="checkbox"] {
+.todo-item input[type="checkbox"] {
     margin-right: 1rem;
 }
 
-.item input[type="text"] {
+.todo-item input[type="text"] {
 	appearance: none;
 	background: none;
 	border: none;
@@ -81,20 +81,20 @@ main {
 	margin-right: 1rem;
 }
 
-.item input[type="text"]:not(:disabled) {
+.todo-item input[type="text"]:not(:disabled) {
     border-bottom: 2px solid #fff;
 }
 
-.item.complete {
+.todo-item.complete {
     opacity: 0.7;
 }
 
-.item.complete input[type="text"] {
+.todo-item.complete input[type="text"] {
     text-decoration: line-through;
 }
 
-.item:hover,
-.item:focus-within {
+.todo-item:hover,
+.todo-item:focus-within {
     outline: 2px solid #fff;
 }
 

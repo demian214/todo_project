@@ -1,133 +1,130 @@
-const list = document.getElementById("list");
+const todoListEl = document.getElementById("list");
 const createBtn = document.getElementById("create-btn");
 
 let todos = [];
 
-createBtn.addEventListener('click', createNewTodo);
+renderTodoList();
 
-function createNewTodo() {
+createBtn.addEventListener('click', addTodoItem);
 
-    const item = {
-        id : new Date().getTime(),
+function addTodoItem() {
+
+    const todo = {
+        id : Date.now(),
         text : "",
         complete : false
     }
 
-    todos.unshift(item);
+    todos.unshift(todo);
+    renderTodoList();
+    saveTodosToStorage();
 
-    const { itemEl, inputEl } = createTodoElment(item);
-
-    list.prepend(itemEl);
-
-    inputEl.removeAttribute("disabled");
-
-    inputEl.focus();
-
-    saveToLocalStorage();
+    // 새로 추가된 input에 포커스 주기
+    const firstInput = todoListEl.querySelector("input[type='text']");
+    if (firstInput) {
+        firstInput.removeAttribute("disabled");
+        firstInput.focus();
+    }
 }
 
-function createTodoElment(item) {
+function renderTodoList() {
+    todoListEl.innerHTML = '';
+    todos.forEach(todo => {
+        const todoEl = createTodoElement(todo);
+        todoListEl.appendChild(todoEl);
+    });
+}
+
+function createTodoElement(todo) {
 
     // 요소 생성
-    const itemEl = document.createElement("div");
-    itemEl.classList.add("item");
+    const li = document.createElement("li");
+    li.className = "todo-item";
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.checked = item.complete;
+    checkbox.checked = todo.complete;
 
-    if(item.complete) {
-        itemEl.classList.add("complete");
+    if(todo.complete) {
+        li.classList.add("complete");
     }
 
     const inputEl = document.createElement("input");
     inputEl.type = "text";
-    inputEl.value = item.text;
+    inputEl.value = todo.text;
     inputEl.setAttribute("disabled", "");
 
     const actionsEl = document.createElement("div");
-    actionsEl.classList.add("actions");
+    actionsEl.className = 'actions';
 
     const editBtnEl = document.createElement("button");
-    editBtnEl.classList.add("material-icons");
+    editBtnEl.className = 'material-icons';
     editBtnEl.innerText = "edit";
 
     const removeBtnEl = document.createElement("button");
     removeBtnEl.classList.add("material-icons", "remove-btn");
     removeBtnEl.innerText = "remove_circle";
 
-    // 요소 노드에 추가
+    // 노드에 추가
     actionsEl.append(editBtnEl);
     actionsEl.append(removeBtnEl);
 
-    itemEl.append(checkbox);
-    itemEl.append(inputEl);
-    itemEl.append(actionsEl);
+    li.append(checkbox);
+    li.append(inputEl);
+    li.append(actionsEl);
 
-    // 이벤트 생성
-    checkbox.addEventListener("change", () => {
-        item.complete = checkbox.checked;
+    // 이벤트 리스너
+    checkbox.addEventListener("change", () => toggleTodoComplete(todo, li, checkbox));
 
-        if (item.complete) {
-            itemEl.classList.add("complete");
-        } else {
-            itemEl.classList.remove("complete");
-        }
-
-        saveToLocalStorage();
-    });
-
-    inputEl.addEventListener("input", () => {
-        item.text = inputEl.value;
-    });
-
+    inputEl.addEventListener("input", () => {todo.text = inputEl.value;});
+    
+    editBtnEl.addEventListener("click", () => editTodoText(inputEl));
+    
+    removeBtnEl.addEventListener("click", () => removeTodoItem(todo, li));
+    
     inputEl.addEventListener("blur", () => {
         inputEl.setAttribute("disabled", "");
-
-        saveToLocalStorage();
+        saveTodosToStorage();
     });
 
-    editBtnEl.addEventListener("click", () => {
-        inputEl.removeAttribute("disabled");
-        inputEl.focus();
-    });
-    
-    removeBtnEl.addEventListener("click", () => {
-        todos = todos.filter(t => t.id != item.id);
-        itemEl.remove();
-
-        saveToLocalStorage();
-    });
-
-    return { itemEl, inputEl, editBtnEl, removeBtnEl }
-
+    return li;
 }
 
-function displayTodos() {
-    loadFromLocalStorage();
+function toggleTodoComplete(todo, li, checkbox) {
 
-    for (let i = 0; i < todos.length; i++){
-        const item = todos[i];
+    todo.complete = checkbox.checked;
 
-        const { itemEl } = createTodoElment(item);
-
-        list.append(itemEl);
+    if (todo.complete) {
+        li.classList.add("complete");
+    } else {
+        li.classList.remove("complete");
     }
+
+    saveTodosToStorage();
 }
 
-displayTodos();
+function editTodoText(inputEl) {
+    inputEl.removeAttribute("disabled");
+    inputEl.focus();
+}
 
-function saveToLocalStorage() {
+function removeTodoItem(todo, li) {
+    todos = todos.filter(t => t.id != todo.id);
+    li.remove();
+    saveTodosToStorage();
+}
+
+function saveTodosToStorage() {
     const data = JSON.stringify(todos);
-
     localStorage.setItem("my_todos", data);
-
 }
 
-function loadFromLocalStorage() {
+function loadTodosFromStorage() {
     const data = localStorage.getItem("my_todos");
 
     if(data){
         todos = JSON.parse(data);
     }
 }
+
+loadTodosFromStorage();
