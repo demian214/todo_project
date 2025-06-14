@@ -34,12 +34,11 @@
 ## 📁 프로젝트 구조
 
 ```
-
 /
-├── index.html
-├── style.css
-└── script.js
-
+├── assets/images/screenshot
+├── css/styles.css
+├── js/script.js
+└── index.html
 ```
 
 ---
@@ -121,28 +120,32 @@ JSON 문자열로 저장 및 불러오기
 ```
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <main>
-        <div class="app">
-            <header>
+        <section class="app">
+            <header class="app-header">
                 <h1>Todos 앱</h1>
                 <button id="create-btn">새로운 TODO 추가하기</button>
             </header>
-            <div class="todo-list" id="list"></div>
-        </div>
+
+            <section class="todo-list-section" id="list">
+                <ul class="todo-list" id="list"></ul>
+            </section>
+        </section>
     </main>
-    <script src="script.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
+
 ```
 
 ---
@@ -151,25 +154,33 @@ JSON 문자열로 저장 및 불러오기
 
 ```
 
-const list = document.getElementById("list");
+const todoListEl = document.getElementById("list");
 const createBtn = document.getElementById("create-btn");
 
 let todos = [];
 
-createBtn.addEventListener('click', createNewTodo);
+renderTodoList();
 
-function createNewTodo() {
-const item = {
-id : new Date().getTime(),
-text : "",
-complete : false
-}
-todos.unshift(item);
-const { itemEl, inputEl } = createTodoElment(item);
-list.prepend(itemEl);
-inputEl.removeAttribute("disabled");
-inputEl.focus();
-saveToLocalStorage();
+createBtn.addEventListener('click', addTodoItem);
+
+function addTodoItem() {
+
+    const todo = {
+        id : Date.now(),
+        text : "",
+        complete : false
+    }
+
+    todos.unshift(todo);
+    renderTodoList();
+    saveTodosToStorage();
+
+    // 새로 추가된 input에 포커스 주기
+    const firstInput = todoListEl.querySelector("input[type='text']");
+    if (firstInput) {
+        firstInput.removeAttribute("disabled");
+        firstInput.focus();
+    }
 }
 
 // ... 이하 생략 ...
