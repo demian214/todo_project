@@ -19,7 +19,7 @@
 
 ## 🎨 데모
 
-> ![설명 텍스트](./screenshot_4.png)![설명 텍스트](./screenshot_3.png)![설명 텍스트](./screenshot_2.png)![설명 텍스트](./screenshot_1.png)
+> ![설명 텍스트](./assets/images/screenshot/screenshot_4.png)![설명 텍스트](./assets/images/screenshot/screenshot_3.png)![설명 텍스트](./assets/images/screenshot/screenshot_2.png)![설명 텍스트](./assets/images/screenshot/screenshot_1.png)
 
 ---
 
@@ -204,6 +204,7 @@ saveToLocalStorage();
 ## ⚙️ 업데이트 내역
 
 - 피드백 리드미에 반영 - 2025.06.14 | 17:50
+- 폴더 구조 정리 - 2025.06.14 | 17:59
 
 ---
 
